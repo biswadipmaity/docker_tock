@@ -9,18 +9,15 @@ RUN apt-get update
 RUN apt-get install -y software-properties-common python-software-properties
 RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa
 RUN apt-get update
-RUN apt-get install -y build-essential gcc-arm-embedded curl
+RUN apt-get install -y build-essential gcc-arm-embedded curl git-core
 RUN apt-get clean
 
-# checkout repo with mercurial
+# checkout repo
 WORKDIR /usr/local/src
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 ENV PATH="/root/.cargo/bin:${PATH}"
 RUN rustup install nightly-2017-09-20
-
 RUN cargo install xargo
-
-RUN apt-get install -y git-core
 RUN git clone https://github.com/helena-project/tock.git
 
 ENTRYPOINT bash
